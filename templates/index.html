@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AML Transaction Predictions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">Anti-Money Laundering Transaction Predictions</h2>
+
+        <div class="d-flex justify-content-between mb-3">
+            <button class="btn btn-primary" onclick="location.reload()">Refresh Predictions</button>
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Serial Number</th>
+                    <th>Transaction ID</th>
+                    <th>Sender Name</th>
+                    <th>Receiver Name</th>
+                    <th>Transaction Amount</th>
+                    <th>Prediction</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr class="{% if transaction.prediction == 'Fraudulent' %}table-danger{% endif %}">
+                    <td>{{ transaction.sr_no }}</td>
+                    <td>{{ transaction.transaction_id }}</td>
+                    <td>{{ transaction.sender_name }}</td>
+                    <td>{{ transaction.receiver_name }}</td>
+                    <td>{{ transaction.transaction_amount }}</td>
+                    <td>{{ transaction.prediction }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
