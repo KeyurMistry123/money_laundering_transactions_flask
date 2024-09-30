@@ -23,6 +23,7 @@
                     <th>Receiver Name</th>
                     <th>Transaction Amount</th>
                     <th>Prediction</th>
+                    <th>Risk Score</th>  <!-- Add column for Risk Score -->
                 </tr>
             </thead>
             <tbody>
@@ -34,6 +35,7 @@
                     <td>{{ transaction.receiver_name }}</td>
                     <td>{{ transaction.transaction_amount }}</td>
                     <td>{{ transaction.prediction }}</td>
+                    <td>{{ transaction.risk_score }}</td>  <!-- Display Risk Score here -->
                 </tr>
                 {% endfor %}
             </tbody>

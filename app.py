@@ -30,15 +30,23 @@ features = ['sender_name_encoded', 'receiver_name_encoded', 'transaction_amount_
 # Route for displaying transactions and predictions
 @app.route('/transactions')
 def transactions():
-    # Generate model predictions
-    print("Generating predictions...")
+    # Generate model predictions and risk scores
+    print("Generating predictions and risk scores...")
+
+    # Get both the class prediction and the fraud probability (risk score)
+    probabilities = model.predict_proba(df[features])[:, 1]  # Probability of fraud (class 1)
+    
+    # Generate binary predictions (fraudulent or not)
     df['is_fraudulent'] = model.predict(df[features])
 
-    # Convert is_fraudulent to readable format
+    # Convert probability to a risk score (e.g., scaling to 0-100)
+    df['risk_score'] = (probabilities * 100).round(2)
+
+    # Convert binary prediction to a readable format
     df['prediction'] = df['is_fraudulent'].apply(lambda x: 'Fraudulent' if x == 1 else 'Non-Fraudulent')
 
     # Prepare data for frontend (HTML table)
-    transactions_list = df[['sr_no', 'transaction_id', 'sender_name', 'receiver_name', 'transaction_amount', 'prediction']].to_dict(orient='records')
+    transactions_list = df[['sr_no', 'transaction_id', 'sender_name', 'receiver_name', 'transaction_amount', 'prediction', 'risk_score']].to_dict(orient='records')
 
     return render_template('index.html', transactions=transactions_list)
 
